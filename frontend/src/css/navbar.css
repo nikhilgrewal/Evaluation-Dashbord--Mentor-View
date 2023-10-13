@@ -1,0 +1,27 @@
+/* Navbar container */
+.navbar {
+    background-color: #333; /* Background color for the navbar */
+    display: flex;
+    justify-content:flex-start;
+    padding: 10px;
+  }
+  
+  /* Navbar links */
+  .navbar a {
+    text-decoration: none; /* Remove underline from links */
+    color: #fff; /* Text color for links */
+    font-size: 16px; /* Font size for links */
+    margin: 0 15px; /* Add spacing between links */
+    transition: color 0.3s; /* Smooth color transition on hover */
+  
+    /* Center text vertically within the navbar */
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Change link color on hover */
+  .navbar a:hover {
+    color: rgb(246, 255, 0); /* Change text color on hover */
+  }
+  
+ 
