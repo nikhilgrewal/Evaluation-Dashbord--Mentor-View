@@ -30,6 +30,10 @@ const studentData=new mongoose.Schema({
     mentorId: {
         type: String,
     },
+    isLocked:{
+        type:Boolean,
+        default:false,
+    }
 });
 
 const Student=mongoose.model("Student",studentData);
