@@ -13,9 +13,9 @@ function Navbar(){
             <nav className="navbar">
                 <Link to="/">All Students</Link>
                 <Link to="/assignedstudents">Assigned Students</Link>
-                {mentorData.ismentorSet ? <h1>{mentorData["mentorid"]}</h1>:
+                {mentorData.ismentorSet ? <h1> Mentor Name: {mentorData["mentorid"]}</h1>:
                 <div>
-                    <input onChange={(e) => handleChange("mentorid", e.target.value)}/>
+                    <input placeholder="Enter Mentor Name" onChange={(e) => handleChange("mentorid", e.target.value)}/>
                 <button onClick={(e) => handleChange("ismentorSet", true)}>Submit</button>
                 </div>}
             </nav>

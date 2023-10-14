@@ -2,6 +2,7 @@ const express=require('express');
 const mongoose=require('mongoose');
 const router= express.Router();
 const Student=require('../Model/studentSchema');
+const { sendMail, defaultMailOptions } = require('../nodemailerSetup');
 
 
 router.get('/',async(req,res)=>{
@@ -45,9 +46,9 @@ router.post('/',async(req,res)=>{
     try{
         const newStudent = new Student(req.body);
         const saveStudent=await newStudent.save();
-        res.status(201).json(saveStudent); 
+        res.status(200).json(saveStudent); 
     }catch(err){
-        res.status(501).json({error: err.message});
+        res.status(500).json({error: err.message});
     }
 });
 
@@ -56,6 +57,15 @@ router.put('/:id',async(req,res)=>{
         const newUser=await Student.findByIdAndUpdate(req.params.id,req.body);
         if(!newUser){
             return res.status(500).json({error:"Student not found"});
+        }
+        console.log(req.body)
+        if(req.body.isLocked===true){
+            const customMailOptions = {
+                ...defaultMailOptions,
+                to: req.body.email,
+              };
+              
+              sendMail(customMailOptions).catch(console.error);
         }
         res.status(200).json(newUser);
     }catch(err){

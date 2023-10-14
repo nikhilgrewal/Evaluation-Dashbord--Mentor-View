@@ -8,7 +8,7 @@ function Assignedstudents() {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://localhost:5000/student/mentor/${mentorData.mentorid}`
+          `https://scalar-backend.onrender.com/student/mentor/${mentorData.mentorid}`
         );
         if (response.status === 200) {
           const data = await response.json();
@@ -27,12 +27,24 @@ function Assignedstudents() {
     setEditableStudent(student);
   };
 
+  const handleUpdateMarks = (e) => {
+      let clampedValue = e.target.value;
+      if (clampedValue !== '') {
+        clampedValue = Math.min(10, Math.max(0, parseInt(e.target.value)));
+      }
+  
+      const updatedStudent = {
+        ...editableStudent,
+        [e.target.name]: clampedValue,
+      };
+      setEditableStudent(updatedStudent);
+  }
   const onSave = async () => {
     if (editableStudent._id !== null) {
       try {
         console.log("editableStudent", editableStudent);
         const response = await fetch(
-          `http://localhost:5000/student/${editableStudent._id}`,
+          `https://scalar-backend.onrender.com/student/${editableStudent._id}`,
           {
             method: "PUT", // Use PUT method to update the data
             mode: "cors",
@@ -90,16 +102,13 @@ function Assignedstudents() {
                 <td>
                   {editableStudent._id === student._id ? (
                     <input
-                      type="number"
-                      value={editableStudent.ideationMarks}
-                      onChange={(e) => {
-                        const updatedStudent = {
-                          ...editableStudent,
-                          ideationMarks: e.target.value,
-                        };
-                        setEditableStudent(updatedStudent);
-                      }}
-                    />
+                    type="number"
+                    name="ideationMarks"
+                    value={editableStudent.ideationMarks}
+                    min={0}
+                    max={10}
+                    onChange={handleUpdateMarks}
+                  />
                   ) : (
                     student.ideationMarks
                   )}
@@ -108,14 +117,11 @@ function Assignedstudents() {
                   {editableStudent._id === student._id ? (
                     <input
                       type="number"
+                      name="executionMarks"
+                      min={0}
+                      max={10}
                       value={editableStudent.executionMarks}
-                      onChange={(e) => {
-                        const updatedStudent = {
-                          ...editableStudent,
-                          executionMarks: e.target.value,
-                        };
-                        setEditableStudent(updatedStudent);
-                      }}
+                      onChange={handleUpdateMarks}
                     />
                   ) : (
                     student.executionMarks
@@ -125,14 +131,11 @@ function Assignedstudents() {
                   {editableStudent._id === student._id ? (
                     <input
                       type="number"
+                      name="pitchMarks"
                       value={editableStudent.pitchMarks}
-                      onChange={(e) => {
-                        const updatedStudent = {
-                          ...editableStudent,
-                          pitchMarks: e.target.value,
-                        };
-                        setEditableStudent(updatedStudent);
-                      }}
+                      min={0}
+                      max={10}
+                      onChange={handleUpdateMarks}
                     />
                   ) : (
                     student.pitchMarks

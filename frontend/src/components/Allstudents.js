@@ -17,7 +17,7 @@ function AllStudents() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("http://localhost:5000/student"); // Replace with your backend API route
+        const response = await fetch("https://scalar-backend.onrender.com/student"); // Replace with your backend API route
         const data = await response.json();
         setStudents(data);
       } catch (error) {
@@ -56,7 +56,7 @@ function AllStudents() {
     // }
 
     // }else{
-    const res = await fetch("http://localhost:5000/student/assignStudent", {
+    const res = await fetch("https://scalar-backend.onrender.com/student/assignStudent", {
       method: "POST",
       mode: "cors",
       headers: new Headers({ "Content-type": "application/json" }),
@@ -77,7 +77,7 @@ function AllStudents() {
     // console.log(res);
     // }
   };
-
+  console.log(students)
   return (
     <div>
       <h2>All Students</h2>
@@ -108,10 +108,12 @@ function AllStudents() {
         </thead>
         <tbody>
           {students
-            .filter(
-              (student) =>
-                selectedOption === "assigned" && student.mentorName !== ""
-            )
+            .filter((student) => {
+              if (selectedOption === "unassigned") {
+                return !student.mentorName; // Filter students with no mentorName
+              }
+              return selectedOption === "assigned" && student.mentorName;
+            })
             .map((student, index) => (
               <tr key={index}>
                 <td>{student.name}</td>
